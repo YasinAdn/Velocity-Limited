@@ -8,9 +8,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
+    <!-- Global Progress Bar -->
+    <div class="scroll-progress"></div>
+
     <!-- Noise & Scanline Overlays -->
     <div class="noise-overlay"></div>
     <div class="scanlines"></div>
@@ -23,20 +26,46 @@
 
     <!-- Loading Screen -->
     <div class="loader">
-        <div class="loader-text glitch" data-text="INITIALIZING CORE...">INITIALIZING CORE...</div>
-        <div class="progress-bar"><div class="progress"></div></div>
+        <div class="loader-inner">
+            <div class="loader-text glitch" data-text="INITIALIZING CORE...">INITIALIZING CORE...</div>
+            <div class="progress-wrapper">
+                <div class="progress-bar"><div class="progress"></div></div>
+                <div class="progress-percentage">0%</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Full Screen Menu -->
+    <div class="full-menu">
+        <div class="menu-bg"></div>
+        <nav class="menu-nav">
+            <a href="#hero" class="menu-link split-text" data-cursor="GO">00 HOME</a>
+            <a href="#network" class="menu-link split-text" data-cursor="GO">01 NETWORK</a>
+            <a href="#security" class="menu-link split-text" data-cursor="GO">02 SECURITY</a>
+            <a href="#support" class="menu-link split-text" data-cursor="GO">03 SUPPORT</a>
+            <a href="#contact" class="menu-link split-text" data-cursor="GO">04 CONTACT</a>
+        </nav>
+        <div class="menu-footer">
+            <a href="mailto:velocitylimitedofficial@gmail.com" class="magnetic" data-cursor="EMAIL">velocitylimitedofficial@gmail.com</a>
+            <a href="tel:+923202833725" class="magnetic" data-cursor="CALL">+92-320-2833725</a>
+        </div>
     </div>
 
     <!-- WebGL Canvas -->
     <canvas id="webgl-canvas"></canvas>
 
-    <!-- Navigation / Header -->
+    <!-- Header UI -->
     <header class="header">
-        <div class="logo" data-cursor="HOME">VELOCITY<span class="highlight">.LTD</span></div>
-        <nav class="nav">
-            <a href="#network" class="nav-link" data-cursor="EXPLORE">Solutions</a>
-            <a href="#contact" class="nav-link" data-cursor="CONNECT">Contact</a>
-        </nav>
+        <div class="logo magnetic" data-cursor="HOME">VELOCITY<span class="highlight">.LTD</span></div>
+        <div class="header-controls">
+            <button id="audio-toggle" class="magnetic" data-cursor="TOGGLE">SOUND [ OFF ]</button>
+            <div class="menu-toggle magnetic" data-cursor="MENU">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
     </header>
 
     <!-- Side Progress Indicator -->
@@ -53,44 +82,57 @@
         <!-- Hero Section -->
         <section class="chapter hero" id="hero">
             <div class="content-block">
-                <h1 class="glitch giant-text" data-text="EMPOWER">EMPOWER</h1>
-                <h1 class="giant-text outline-text">YOUR BUSINESS</h1>
-                <p class="subtitle fade-up">Tailored technology frameworks supporting peak performance and robust security. From custom network architectures to world-class web management.</p>
-                <div class="cta-wrapper fade-up">
-                    <a href="#network" class="btn primary-btn" data-cursor="DIVE IN">
+                <h1 class="glitch giant-text split-text" data-text="EMPOWER">EMPOWER</h1>
+                <h1 class="giant-text outline-text split-text">YOUR BUSINESS</h1>
+                <p class="subtitle split-text">Tailored technology frameworks supporting peak performance and robust security. From custom network architectures to world-class web management.</p>
+                <div class="cta-wrapper">
+                    <a href="#network" class="btn primary-btn magnetic" data-cursor="DIVE IN">
                         <span>INITIATE SEQUENCE</span>
                     </a>
                 </div>
+            </div>
+            <div class="scroll-indicator">
+                <span class="mouse-icon"></span>
+                <span>SCROLL TO EXPLORE</span>
             </div>
         </section>
 
         <!-- Chapter 1 -->
         <section class="chapter" id="network">
-            <div class="bg-number">01</div>
+            <div class="bg-number parallax-bg">01</div>
             <div class="content-block right-align">
-                <div class="chapter-label">CHAPTER 01</div>
-                <h2 class="massive-text reveal-text">NETWORK <br><span class="highlight">CONSULTANCY</span></h2>
-                <p class="fade-up">At Velocity, we specialize in providing expert guidance and support in network consultancy, ensuring that your business infrastructure operates at its best with unparalleled reliability.</p>
+                <div class="chapter-label split-text">CHAPTER 01</div>
+                <h2 class="massive-text">
+                    <span class="line-wrapper"><span class="line-text">NETWORK</span></span><br>
+                    <span class="line-wrapper"><span class="line-text highlight">CONSULTANCY</span></span>
+                </h2>
+                <p class="split-text">At Velocity, we specialize in providing expert guidance and support in network consultancy, ensuring that your business infrastructure operates at its best with unparalleled reliability.</p>
             </div>
         </section>
 
         <!-- Chapter 2 -->
         <section class="chapter" id="security">
-            <div class="bg-number">02</div>
+            <div class="bg-number parallax-bg">02</div>
             <div class="content-block">
-                <div class="chapter-label">CHAPTER 02</div>
-                <h2 class="massive-text reveal-text">ROBUST <br><span class="highlight">CYBERSECURITY</span></h2>
-                <p class="fade-up">Safeguard your business from potential cyber threats with our robust cybersecurity solutions designed to protect your valuable data and ensure business continuity.</p>
+                <div class="chapter-label split-text">CHAPTER 02</div>
+                <h2 class="massive-text">
+                    <span class="line-wrapper"><span class="line-text">ROBUST</span></span><br>
+                    <span class="line-wrapper"><span class="line-text highlight">CYBERSECURITY</span></span>
+                </h2>
+                <p class="split-text">Safeguard your business from potential cyber threats with our robust cybersecurity solutions designed to protect your valuable data and ensure business continuity.</p>
             </div>
         </section>
 
         <!-- Chapter 3 -->
         <section class="chapter" id="support">
-            <div class="bg-number">03</div>
+            <div class="bg-number parallax-bg">03</div>
             <div class="content-block right-align">
-                <div class="chapter-label">CHAPTER 03</div>
-                <h2 class="massive-text reveal-text">EFFICIENT <br><span class="highlight">SUPPORT</span></h2>
-                <p class="fade-up">With our efficient remote support and on-site excellence, we ensure that your IT systems run smoothly, allowing you to focus on your core business functions with peace of mind.</p>
+                <div class="chapter-label split-text">CHAPTER 03</div>
+                <h2 class="massive-text">
+                    <span class="line-wrapper"><span class="line-text">EFFICIENT</span></span><br>
+                    <span class="line-wrapper"><span class="line-text highlight">SUPPORT</span></span>
+                </h2>
+                <p class="split-text">With our efficient remote support and on-site excellence, we ensure that your IT systems run smoothly, allowing you to focus on your core business functions with peace of mind.</p>
             </div>
         </section>
 
@@ -98,28 +140,36 @@
         <section class="chapter" id="contact">
             <div class="content-block center-align">
                 <div class="stats-grid">
-                    <div class="stat-item fade-up">
-                        <h3 class="highlight">5+</h3>
-                        <p>Years Experience</p>
+                    <div class="stat-item">
+                        <div class="stat-value">
+                            <h3 class="highlight counter" data-target="5">0</h3><span class="highlight stat-suffix">+</span>
+                        </div>
+                        <p class="split-text">Years Experience</p>
                     </div>
-                    <div class="stat-item fade-up">
-                        <h3 class="highlight">100+</h3>
-                        <p>Satisfied Clients</p>
+                    <div class="stat-item">
+                        <div class="stat-value">
+                            <h3 class="highlight counter" data-target="100">0</h3><span class="highlight stat-suffix">+</span>
+                        </div>
+                        <p class="split-text">Satisfied Clients</p>
                     </div>
-                    <div class="stat-item fade-up">
-                        <h3 class="highlight">99%</h3>
-                        <p>Client Retention</p>
+                    <div class="stat-item">
+                        <div class="stat-value">
+                            <h3 class="highlight counter" data-target="99">0</h3><span class="highlight stat-suffix">%</span>
+                        </div>
+                        <p class="split-text">Client Retention</p>
                     </div>
-                    <div class="stat-item fade-up">
-                        <h3 class="highlight">24/7</h3>
-                        <p>Support Availability</p>
+                    <div class="stat-item">
+                        <div class="stat-value">
+                            <h3 class="highlight counter" data-target="24">0</h3><span class="highlight stat-suffix">/7</span>
+                        </div>
+                        <p class="split-text">Support</p>
                     </div>
                 </div>
-                <h2 class="giant-text reveal-text mt-4">READY TO ELEVATE?</h2>
-                <p class="fade-up text-center">Get in touch with our team to propel your business forward.</p>
-                <div class="contact-info fade-up">
-                    <a href="mailto:velocitylimitedofficial@gmail.com" class="contact-link" data-cursor="EMAIL">velocitylimitedofficial@gmail.com</a>
-                    <a href="tel:+923202833725" class="contact-link" data-cursor="CALL">+92-320-2833725</a>
+                <h2 class="giant-text mt-4 split-text">READY TO ELEVATE?</h2>
+                <p class="text-center split-text">Get in touch with our team to propel your business forward.</p>
+                <div class="contact-info">
+                    <a href="mailto:velocitylimitedofficial@gmail.com" class="contact-link magnetic" data-cursor="EMAIL">velocitylimitedofficial@gmail.com</a>
+                    <a href="tel:+923202833725" class="contact-link magnetic" data-cursor="CALL">+92-320-2833725</a>
                 </div>
             </div>
         </section>
@@ -130,6 +180,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="app.js"></script>
+    <!-- Howler for audio -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+    <script src="app.js?v=2"></script>
 </body>
 </html>
