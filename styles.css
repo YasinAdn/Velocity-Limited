@@ -192,18 +192,24 @@ html.lenis, html.lenis body {
     top: 0;
     left: 0;
     width: 100%;
-    padding: 40px 60px;
+    padding: 30px 5vw;
     display: flex;
     justify-content: space-between;
     align-items: center;
     z-index: 100;
+    background: linear-gradient(to bottom, rgba(3,6,10,0.9) 0%, rgba(3,6,10,0) 100%);
+    pointer-events: none; /* Let clicks pass through background */
+}
+
+.header > * {
+    pointer-events: auto; /* Re-enable clicks on children */
 }
 
 .logo {
     font-family: var(--font-heading);
-    font-size: 1.8rem;
+    font-size: clamp(1rem, 4vw, 1.8rem);
     font-weight: 900;
-    letter-spacing: 4px;
+    letter-spacing: 2px;
 }
 
 .logo .highlight {
@@ -212,7 +218,7 @@ html.lenis, html.lenis body {
 
 .nav {
     display: flex;
-    gap: 40px;
+    gap: clamp(15px, 3vw, 40px);
 }
 
 .nav-link {
@@ -332,21 +338,22 @@ html.lenis, html.lenis body {
 /* Typography */
 .giant-text {
     font-family: var(--font-heading);
-    font-size: clamp(2.5rem, 10vw, 9rem);
+    font-size: clamp(1.8rem, 10vw, 9rem);
     font-weight: 900;
     line-height: 0.9;
     text-transform: uppercase;
-    letter-spacing: -2px;
+    letter-spacing: -1px;
 }
 
 .massive-text {
     font-family: var(--font-heading);
-    font-size: clamp(2rem, 8vw, 7rem);
+    font-size: clamp(1.5rem, 8vw, 7rem);
     font-weight: 900;
     line-height: 1;
     margin-bottom: 40px;
     text-transform: uppercase;
     letter-spacing: -1px;
+    word-break: break-word;
 }
 
 .outline-text {
@@ -490,7 +497,7 @@ p {
 
 .stat-item h3 {
     font-family: var(--font-heading);
-    font-size: clamp(3rem, 10vw, 5rem);
+    font-size: clamp(2rem, 15vw, 5rem);
     margin-bottom: 5px;
     line-height: 1;
 }
@@ -517,11 +524,12 @@ p {
 .contact-link {
     color: var(--text-primary);
     font-family: var(--font-heading);
-    font-size: 2rem;
+    font-size: clamp(1rem, 5vw, 2rem);
     font-weight: 900;
     text-decoration: none;
     transition: color 0.3s, text-shadow 0.3s, letter-spacing 0.3s;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
+    word-break: break-word;
 }
 
 .contact-link:hover {
@@ -539,16 +547,14 @@ p {
 
 @media (max-width: 768px) {
     .header {
-        padding: 15px;
+        padding: 20px 5vw;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
     }
-    .logo { font-size: 1.2rem; }
-    .nav { gap: 15px; }
     .nav-link { font-size: 0.8rem; letter-spacing: 1px; }
     .side-nav { display: none; }
-    .chapter { padding: 0 15px; text-align: center; }
+    .chapter { padding: 0 5vw; text-align: center; }
     .content-block.right-align { text-align: center; }
     .right-align p { margin: 0 auto 40px; }
     .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
@@ -556,22 +562,17 @@ p {
 }
 
 @media (max-width: 480px) {
-    .header { flex-direction: column; gap: 10px; }
     .stats-grid { grid-template-columns: 1fr; }
     .bg-number { font-size: 80vw; }
-    .contact-link { font-size: 1.2rem; word-break: break-all; }
+    .contact-info { width: 100%; overflow: hidden; }
 }
 
 @media (max-width: 320px) {
     /* For Galaxy Fold */
-    .giant-text { font-size: 2rem; letter-spacing: 0; }
-    .massive-text { font-size: 1.6rem; letter-spacing: 0; }
     .glitch::before { left: 1px; }
     .glitch::after { left: -1px; }
     p { font-size: 0.9rem; margin-bottom: 30px; }
     .btn { padding: 10px 20px; font-size: 0.8rem; }
-    .logo { font-size: 1rem; }
-    .contact-link { font-size: 1rem; }
 }
 
 /* Hide custom cursor on touch devices */
