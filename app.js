@@ -2,11 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // --- Smooth Scrolling (Lenis) ---
     const lenis = new Lenis({
-        duration: 1.5,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        direction: 'vertical',
-        gestureDirection: 'vertical',
-        smooth: true,
+        lerp: 0.08, // Snappier, smoother scroll than duration
+        wheelMultiplier: 1,
+        smoothWheel: true,
         smoothTouch: false,
         touchMultiplier: 2,
     });
@@ -22,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 1. Custom Cursor ---
     const cursor = document.querySelector('.cursor');
     const cursorText = document.querySelector('.cursor-text');
+    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
     
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
@@ -30,10 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const speed = 0.1; // Slower inertia for heavier feel
     
-    window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    });
+    if (!isTouchDevice) {
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
     
     function animateCursor() {
         let distX = mouseX - cursorX;
@@ -46,23 +46,25 @@ document.addEventListener('DOMContentLoaded', () => {
         
         requestAnimationFrame(animateCursor);
     }
-    animateCursor();
-    
-    // Hover effects
-    const interactiveElements = document.querySelectorAll('a, button, [data-cursor]');
-    
-    interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            cursor.classList.add('hovered');
-            const text = el.getAttribute('data-cursor') || 'VIEW';
-            cursorText.innerText = text;
-        });
+    if (!isTouchDevice) {
+        animateCursor();
         
-        el.addEventListener('mouseleave', () => {
-            cursor.classList.remove('hovered');
-            cursorText.innerText = '';
+        // Hover effects
+        const interactiveElements = document.querySelectorAll('a, button, [data-cursor]');
+        
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.classList.add('hovered');
+                const text = el.getAttribute('data-cursor') || 'VIEW';
+                cursorText.innerText = text;
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hovered');
+                cursorText.innerText = '';
+            });
         });
-    });
+    }
 
     // --- 2. Loading Screen ---
     const loader = document.querySelector('.loader');
@@ -99,7 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
     scene.fog = new THREE.FogExp2(0x03060a, 0.015); // Heavier fog
     
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 25; // Closer start
+    const getBaseZ = () => window.innerWidth <= 768 ? 35 : 25;
+    camera.position.z = getBaseZ();
     
     const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -131,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Data Particles
     const particlesGeo = new THREE.BufferGeometry();
-    const particlesCount = 4000; // More particles
+    const particlesCount = 1500; // Reduced for performance and smoother scrolling
     const posArray = new Float32Array(particlesCount * 3);
     
     for(let i = 0; i < particlesCount * 3; i++) {
@@ -269,8 +272,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 scrub: 1,
                 onUpdate: (self) => {
                     // Dive deeper into the core on scroll
+                    const currentBaseZ = getBaseZ();
                     gsap.to(camera.position, {
-                        z: 25 - (index * 8) + (self.progress * 4),
+                        z: currentBaseZ - (index * 8) + (self.progress * 4),
                         duration: 1,
                         ease: "power2.out",
                         overwrite: "auto"

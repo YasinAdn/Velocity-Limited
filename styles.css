@@ -332,7 +332,7 @@ html.lenis, html.lenis body {
 /* Typography */
 .giant-text {
     font-family: var(--font-heading);
-    font-size: clamp(4rem, 8vw, 9rem);
+    font-size: clamp(2.5rem, 10vw, 9rem);
     font-weight: 900;
     line-height: 0.9;
     text-transform: uppercase;
@@ -341,7 +341,7 @@ html.lenis, html.lenis body {
 
 .massive-text {
     font-family: var(--font-heading);
-    font-size: clamp(3rem, 6vw, 7rem);
+    font-size: clamp(2rem, 8vw, 7rem);
     font-weight: 900;
     line-height: 1;
     margin-bottom: 40px;
@@ -366,7 +366,7 @@ html.lenis, html.lenis body {
 }
 
 p {
-    font-size: 1.4rem;
+    font-size: clamp(1rem, 4vw, 1.4rem);
     color: var(--text-secondary);
     line-height: 1.6;
     max-width: 500px;
@@ -441,9 +441,9 @@ p {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 20px 50px;
+    padding: clamp(12px, 3vw, 20px) clamp(20px, 5vw, 50px);
     font-family: var(--font-heading);
-    font-size: 1.1rem;
+    font-size: clamp(0.9rem, 3vw, 1.1rem);
     font-weight: 900;
     letter-spacing: 3px;
     text-decoration: none;
@@ -454,6 +454,9 @@ p {
     position: relative;
     overflow: hidden;
     transition: all 0.3s;
+    text-align: center;
+    width: 100%;
+    max-width: 300px;
 }
 
 .btn::before {
@@ -487,13 +490,13 @@ p {
 
 .stat-item h3 {
     font-family: var(--font-heading);
-    font-size: 5rem;
+    font-size: clamp(3rem, 10vw, 5rem);
     margin-bottom: 5px;
     line-height: 1;
 }
 
 .stat-item p {
-    font-size: 1.1rem;
+    font-size: clamp(0.8rem, 3vw, 1.1rem);
     text-transform: uppercase;
     letter-spacing: 2px;
     margin: 0 auto;
@@ -536,14 +539,43 @@ p {
 
 @media (max-width: 768px) {
     .header {
-        padding: 20px;
-        flex-direction: column;
-        gap: 20px;
+        padding: 15px;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
     }
+    .logo { font-size: 1.2rem; }
+    .nav { gap: 15px; }
+    .nav-link { font-size: 0.8rem; letter-spacing: 1px; }
     .side-nav { display: none; }
-    .chapter { padding: 0 20px; text-align: center; }
+    .chapter { padding: 0 15px; text-align: center; }
     .content-block.right-align { text-align: center; }
     .right-align p { margin: 0 auto 40px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .bg-number { font-size: 70vw; }
+}
+
+@media (max-width: 480px) {
+    .header { flex-direction: column; gap: 10px; }
     .stats-grid { grid-template-columns: 1fr; }
-    .bg-number { font-size: 60vw; }
+    .bg-number { font-size: 80vw; }
+    .contact-link { font-size: 1.2rem; word-break: break-all; }
+}
+
+@media (max-width: 320px) {
+    /* For Galaxy Fold */
+    .giant-text { font-size: 2rem; letter-spacing: 0; }
+    .massive-text { font-size: 1.6rem; letter-spacing: 0; }
+    .glitch::before { left: 1px; }
+    .glitch::after { left: -1px; }
+    p { font-size: 0.9rem; margin-bottom: 30px; }
+    .btn { padding: 10px 20px; font-size: 0.8rem; }
+    .logo { font-size: 1rem; }
+    .contact-link { font-size: 1rem; }
+}
+
+/* Hide custom cursor on touch devices */
+@media (hover: none) and (pointer: coarse) {
+    .cursor { display: none !important; }
+    * { cursor: auto !important; }
 }
