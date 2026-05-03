@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
             mouseX = e.clientX;
             mouseY = e.clientY;
         });
+    }
     
     function animateCursor() {
         let distX = mouseX - cursorX;
