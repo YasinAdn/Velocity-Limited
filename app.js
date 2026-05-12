@@ -3,17 +3,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 0. Utility: Split Text into Words for Reveal ---
     const splitTextElements = document.querySelectorAll('.split-text');
     splitTextElements.forEach(el => {
-        const text = el.innerText;
-        const words = text.split(' ');
+        const text = el.textContent.trim();
+        const words = text.split(/\s+/);
         el.innerHTML = '';
         words.forEach((word, index) => {
             const wrapper = document.createElement('span');
             wrapper.className = 'line-wrapper';
             const inner = document.createElement('span');
             inner.className = 'line-text';
-            inner.innerHTML = word + (index < words.length - 1 ? '&nbsp;' : '');
+            inner.innerHTML = word;
             wrapper.appendChild(inner);
             el.appendChild(wrapper);
+            if (index < words.length - 1) {
+                el.appendChild(document.createTextNode(' '));
+            }
         });
     });
 
@@ -44,30 +47,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const cursor = document.querySelector('.cursor');
     const cursorText = document.querySelector('.cursor-text');
     
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let cursorX = window.innerWidth / 2;
-    let cursorY = window.innerHeight / 2;
+    gsap.set(cursor, {xPercent: -50, yPercent: -50});
     
-    const speed = 0.1; 
+    const xTo = gsap.quickTo(cursor, "x", {duration: 0.15, ease: "power3"});
+    const yTo = gsap.quickTo(cursor, "y", {duration: 0.15, ease: "power3"});
     
     window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
+        xTo(e.clientX);
+        yTo(e.clientY);
     });
-    
-    function animateCursor() {
-        let distX = mouseX - cursorX;
-        let distY = mouseY - cursorY;
-        
-        cursorX = cursorX + (distX * speed);
-        cursorY = cursorY + (distY * speed);
-        
-        cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
-        requestAnimationFrame(animateCursor);
-    }
-
-    animateCursor();
     
     const interactiveElements = document.querySelectorAll('a, button, [data-cursor], .menu-toggle');
     
@@ -439,4 +427,87 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    // --- 8. Contact Modal Logic ---
+    const modal = document.getElementById('contact-modal');
+    const openModalBtn = document.getElementById('open-modal-btn');
+    const closeModalBtn = document.getElementById('close-modal');
+    const modalBg = document.getElementById('modal-bg');
+
+    function openModal(e) {
+        if(e) e.preventDefault();
+        modal.classList.add('active');
+        lenis.stop(); // Stop background scrolling
+    }
+
+    function closeModal() {
+        modal.classList.remove('active');
+        lenis.start();
+    }
+
+    if(openModalBtn) openModalBtn.addEventListener('click', openModal);
+    if(closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+    if(modalBg) modalBg.addEventListener('click', closeModal);
+
+    // --- 9. Form Submission Simulation ---
+    const uplinkForm = document.getElementById('uplink-form');
+    const formStatus = document.getElementById('form-status');
+
+    if(uplinkForm) {
+        uplinkForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const submitBtn = uplinkForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.querySelector('span').innerText;
+            
+            submitBtn.querySelector('span').innerText = 'TRANSMITTING...';
+            submitBtn.style.pointerEvents = 'none';
+            
+            // Simulate API Call / Supabase Backend
+            setTimeout(() => {
+                submitBtn.querySelector('span').innerText = originalText;
+                submitBtn.style.pointerEvents = 'auto';
+                formStatus.innerText = 'DATA PAYLOAD RECEIVED SUCCESSFULLY.';
+                formStatus.className = 'form-status success';
+                uplinkForm.reset();
+                
+                setTimeout(() => {
+                    formStatus.innerText = '';
+                    closeModal();
+                }, 3000);
+            }, 2000);
+        });
+    }
+
+    // --- 10. Glass Card Tilt Effect ---
+    const glassCards = document.querySelectorAll('.glass-card');
+    glassCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = ((y - centerY) / centerY) * -5; // max rotation 5deg
+            const rotateY = ((x - centerX) / centerX) * 5;
+            
+            gsap.to(card, {
+                rotateX: rotateX,
+                rotateY: rotateY,
+                duration: 0.5,
+                ease: "power2.out",
+                transformPerspective: 1000
+            });
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            gsap.to(card, {
+                rotateX: 0,
+                rotateY: 0,
+                duration: 0.7,
+                ease: "power2.out"
+            });
+        });
+    });
+
 });
