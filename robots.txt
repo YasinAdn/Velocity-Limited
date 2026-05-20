@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://velocity-limited.vercel.app/sitemap.xml
+Sitemap: https://mynex-systems.vercel.app/sitemap.xml
